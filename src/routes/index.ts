@@ -1,5 +1,6 @@
 /** @format */
 /* eslint-disable no-console */
+
 /// routes/index.ts
 
 import { Router } from 'express';
@@ -7,10 +8,17 @@ import { Request } from '../types';
 
 const router = Router();
 
+let user: string = null;
+
 interface Profile {
   name: string;
   city: string;
   profession?: string;
+}
+
+interface Link {
+  url: string;
+  label: string;
 }
 
 const profiles: Profile[] = [
@@ -21,34 +29,57 @@ const profiles: Profile[] = [
   },
 ];
 
+const links: Link[] = [
+  {
+    url: '/html',
+    label: 'HTML Page',
+  },
+  {
+    url: '/query?name=Jim&location=Not Mullen',
+    label: 'Query Page',
+  },
+  {
+    url: '/params/Jim/Mullen/Developer',
+    label: 'Params Page',
+  },
+  {
+    url: '/json',
+    label: 'JSON page',
+  },
+  {
+    url: '/login',
+    label: 'Login page',
+  },
+];
+
 router.get('/', (req: Request, res) => {
   console.log(`Timestamp: ${req.timestamp}`);
   const data = {
     title: 'My Index Page!',
-    firstName: 'Jim',
+    user,
     name: 'Index',
     date: req.timestamp,
     profiles,
-    links: [
-      {
-        url: '/html',
-        label: 'HTML Page',
-      },
-      {
-        url: '/query?name=Jim&location=Not Mullen',
-        label: 'Query Page',
-      },
-      {
-        url: '/params/Jim/Mullen/Developer',
-        label: 'Params Page',
-      },
-      {
-        url: '/json',
-        label: 'JSON page',
-      },
-    ],
+    links,
   };
   res.render('index', data);
+});
+
+router.post('/login', (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (password === '123') {
+    user = username;
+    res.redirect('/');
+    return;
+  }
+
+  const data = {
+    title: 'Login Error',
+    message: 'Please check your password and username.',
+  };
+
+  res.render('error', data);
 });
 
 router.post('/join', (req, res) => {
@@ -90,6 +121,10 @@ router.get('/query', (req, res) => {
 router.get('/params/:name/:location/:ocupation', (req, res) => {
   const { params } = req;
   res.json(params);
+});
+
+router.get('/login', (_req, res) => {
+  res.render('login', null);
 });
 
 export default router;
