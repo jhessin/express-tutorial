@@ -1,8 +1,10 @@
 /** @format */
+/* eslint-disable no-console*/
 
 import express from 'express';
-import routes from './routes';
 import path from 'path';
+import { Request } from './types';
+import routes from './routes';
 
 const app = express();
 
@@ -12,8 +14,14 @@ app.use(
     extended: true,
   }),
 );
-app.use(routes);
 
+app.use((req: Request, res, next) => {
+  console.log('FIRST MIDDLEWARE!');
+  req.timestamp = new Date().toString();
+  next();
+});
+
+app.use(routes);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hjs');
 

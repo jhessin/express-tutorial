@@ -13,6 +13,8 @@
     <div class="container">
       <h1>This is the {{ name }} Template</h1>
 
+      <p>Today is {{date}}. My name is {{firstName}}.</p>
+
       <h2>Links</h2>
       <ul>
         {{#links}}
