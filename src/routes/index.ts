@@ -1,23 +1,50 @@
 /** @format */
+/// routes/index.ts
 
 import { Router } from 'express';
 
 const router = Router();
 
+const profiles = [
+  {
+    name: 'Jim',
+    city: 'Mullen',
+    profession: 'developer',
+  },
+];
+
 router.get('/', (req, res, next) => {
-  res.send(`
-    <html>
-    <head>
-    <title>My Express Server</title>
-    </head>
-    <body>
-    <a href="/html">HTML Page</a><br>
-    <a href="/query?name=Jim&location=Not Mullen">Query Page</a><br>
-    <a href="/params/Jim/Mullen/Developer">Params Page</a><br>
-    <a href="/json">JSON page</a>
-    </body>
-    </html>
-  `);
+  const data = {
+    title: 'My Index Page!',
+    name: 'Index',
+    profiles,
+    links: [
+      {
+        url: '/html',
+        label: 'HTML Page',
+      },
+      {
+        url: '/query?name=Jim&location=Not Mullen',
+        label: 'Query Page',
+      },
+      {
+        url: '/params/Jim/Mullen/Developer',
+        label: 'Params Page',
+      },
+      {
+        url: '/json',
+        label: 'JSON page',
+      },
+    ],
+  };
+  res.render('index', data);
+});
+
+router.post('/join', (req, res, next) => {
+  const { body } = req;
+  profiles.push(body);
+
+  res.redirect('/');
 });
 
 router.get('/json', (req, res, next) => {

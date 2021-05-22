@@ -1,0 +1,50 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>This is the {{ name }} Template</h1>
+
+      <h2>Links</h2>
+      <ul>
+        {{#links}}
+        {{#url}}
+        {{#label}}
+        <li>
+          <a href="{{ url }}">{{ label }}</a>
+        </li>
+        {{/label}}
+        {{/url}}
+        {{/links}}
+      </ul>
+
+      <h2>Profiles</h2>
+      <ol>
+        {{#profiles}}
+        <li>
+          {{ name }}, {{ city }},
+          {{#profession}}
+          profession: {{ profession }}
+          {{/profession}}
+        </li>
+        {{/profiles}}
+      </ol>
+
+      <form method="post" action="/join">
+        <input type="text" name="name" placeholder="Name"><br>
+        <input type="text" name="city" placeholder="City"><br>
+        <input type="text" name="profession" placeholder="Profession"><br>
+        <input type="submit" value="Add Profile">
+      </form>
+    </div>
+    <script src="/js/bootstrap.min.js"></script>
+  </body>
+</html>
